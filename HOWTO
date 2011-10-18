@@ -1,0 +1,58 @@
+P-Wave-Detector HOWTO
+Casey Halverson, copyright 2011
+MIT License (see README)
+
+In order to make this work, you will need the following hardware:
+
+Ardiuno (any type with 5VDC)
+QuakeAlarm (commodity home p-wave detector) http://www.quakealarm.com/
+Some wires (to bootleg the quake detector to the ardiuno)
+A 9V battery connector with two bare wires (to bootleg the quake detector to the ardiuno)
+3M super mega wall tape (to secure the detector and the ardiuno to the wall)
+A reasonably long USB cable that reaches from an exterior wall to your computer
+Stud finder
+
+Instructions
+
+Follow installation instructions for the QuakeAlarm.  The provided mounting hardware
+is complete garbage, so be sure to go to the store and get yourself some really nice
+3M double sided wall mounting tape used for picture frames/etc.  Secure it to an 
+exterior wall of your home, in a place normally not exposed to vibration, over a stud.
+Use a stud finder if needed.
+
+Secure the Ardiuno using the 3M tape to the wall, by anchoring the top of the USB 
+connector to the wall.  Placement is not too critical, but securing the Ardiuno to the
+wall ensures the QuakeAlarm is not disturbed.
+
+Open the top battery compartment, and connect the 9V battery connector to the other 9V 
+battery connector.  Note that this inverts the negative and positive lines.
+
+Connect the black wire to digital pin 1, and the red wire to ground.  Since we have
+a pull up configured, any connection of the inverse pendulum will produce a logic 0
+on the ardiuno.
+
+There is a calibration nob on the inverse pendulum.  I'd suggest making it more sensitive
+than not, but its really hard to know what a good setting is...until that is..there's 
+a quake.
+
+After you power up the Ardiuno, go to the Ardiuno serial monitor.  it will spit a series 
+of 1's on the serial port at an extremely high rate.  It should only print 0's on motion*
+
+(* for some reason, every 400,000,000 reads, or perhaps at least once a week, it will read
+a single zero for no particular reason.  I cannot figure out why this is, but we account
+for it in software and ignore solo 0's within a few thousand samples)
+
+To simulate an earthquake, carefully place both hands on the wall above the stud where
+your sensor is secured.  Slowly use your body (similar to pushups against the wall) 1-2
+times a second.  This will eventually oscillate the exterior wall to the point where
+the Ardiuno will start printing 0's in a semi-related fashion.
+
+Scripts
+
+I have two scripts configured on my version.  The first sends a notification to a server
+for iPhone notifcations (now defunct).  The second script triggers Twilio to SMS
+every contact within my earthquake alarm database.  Do what you wish..play a sound..
+send yourself a text..shut down your computer...its all up to you.
+
+
+
